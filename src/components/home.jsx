@@ -4,6 +4,15 @@ import { addDoc, collection, getDocs } from "firebase/firestore";
 import PaginatedItems from "./card";
 
 export default function Home() {
+
+    let currentdate = new Date(); 
+    let datetime = currentdate.getDate() + "/"
+                    + (currentdate.getMonth()+1)  + "/" 
+                    + currentdate.getFullYear() + " @ "  
+                    + currentdate.getHours() + ":"  
+                    + currentdate.getMinutes();
+
+
     const titleRef = useRef();
     const bodyRef = useRef();
     const tagRef = useRef();
@@ -40,7 +49,7 @@ export default function Home() {
         let data = {
             title: titleValue,
             body: bodyValue,
-            createdAt: new Date().toLocaleDateString(),
+            createdAt: datetime,
             tag: tagValue,
         };
 
@@ -53,6 +62,7 @@ export default function Home() {
 
             // Fetch the updated list of notes after a successful save
             getNotes();
+            window.location.href = 'https://notekeeper-2d7ef.web.app/';
         } catch (e) {
             console.log(e);
         }
@@ -67,7 +77,7 @@ export default function Home() {
             }));
             setNote(newData);
             console.log(newData);
-            
+           
         } catch (error) {
             console.log("Error getting documents: ", error);
         }
@@ -79,9 +89,9 @@ export default function Home() {
     }, []);
 
     return (
-        <div className="bg-slate-900 flex flex-col items-center justify-center shadow-4xl">
+        <div className=" bg-[url('../public/bg.jpg')] bg-center bg-no-repeat bg-cover flex flex-col items-center justify-center shadow-4xl">
             <h1 className="text-4xl font-bold p-3 text-blue-700 bg-lime-300  w-full">Note-Keeper</h1>
-            <div className="md:w-1/3 w-full m-1">
+            <div className="md:w-1/3 w-11/12 m-1 mb-5">
                 <form
                     onSubmit={handleSave}
                     className="p-5 mt-10 bg-gray-500 flex flex-col rounded-lg shadow-lg"
@@ -108,14 +118,12 @@ export default function Home() {
                     <br />
                     <input
                         type="text"
-                        placeholder="Tags..."
+                        placeholder="Tag..."
                         ref={tagRef}
                         className="p-3 focus:outline-none w-full rounded-md"
                         
                     />
-                    <br />
-                    <br />
-
+         <br />
 
                     <button
                         type="submit"
